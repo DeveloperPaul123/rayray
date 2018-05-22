@@ -30,4 +30,5 @@ if(RAYRAY_BUILD_TESTS)
             GTest::GTest
             GTest::Main
     )
+    add_dependencies(${project_test_name} GTest::GTest GTest::Main)
 endif(RAYRAY_BUILD_TESTS)

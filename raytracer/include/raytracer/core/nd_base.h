@@ -1,6 +1,7 @@
 #pragma once
 #include <ostream>
 #include <array>
+#include <iomanip>
 
 namespace rayray
 {
@@ -25,9 +26,14 @@ namespace rayray
 		value_type_reference operator[](const std::size_t& index);
 		value_type operator[](const std::size_t& index) const;
 
+		nd_base operator+(const T& value);
+		nd_base& operator+=(const T& value);
+		nd_base operator-(const T& value);
+		nd_base& operator-=(const T& value);
+
     protected:
 		std::array<T, N> data_;
-    };
+	};
 
 	template <typename T, std::size_t N>
 	nd_base<T, N>::nd_base()
@@ -76,4 +82,145 @@ namespace rayray
 		}
 		return data_[index];
 	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N> nd_base<T, N>::operator+(const T& value)
+	{
+		return *this += value;
+	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N>& nd_base<T, N>::operator+=(const T& value)
+	{
+		for(auto i = 0; i < N; i++)
+		{
+			data_[i] += value;
+		}
+		return *this;
+	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N> nd_base<T, N>::operator-(const T& value)
+	{
+		return *this -= value;
+	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N>& nd_base<T, N>::operator-=(const T& value)
+	{
+		for (auto i = 0; i < N; i++)
+		{
+			data_[i] -= value;
+		}
+		return *this;
+	}
+
+#pragma region Comparison overloads
+	template<typename T, std::size_t N>
+	inline bool operator>=(const nd_base<T, N>& lhs, const nd_base<T, N>& rhs)
+	{
+		std::size_t depth = 0;
+		while (true)
+		{
+			if (lhs[depth] == rhs[depth] && depth < N)
+			{
+				depth++;
+			}
+			else if (depth == N)
+			{
+				// points equal.
+				return true;
+			}
+			return lhs[depth] >= rhs[depth];
+		}
+	}
+
+	template<typename T, std::size_t N>
+	inline bool operator>(const nd_base<T, N>& lhs, const nd_base<T, N> &rhs)
+	{
+		std::size_t depth = 0;
+		while (true)
+		{
+			if (lhs[depth] == rhs[depth] && depth < N)
+			{
+				depth++;
+			}
+			else if (depth == N)
+			{
+				// points are equal so comparison is false.
+				return false;
+			}
+			return lhs[depth] > rhs[depth];
+		}
+	}
+
+	template<typename T, std::size_t N>
+	inline bool operator<=(const nd_base<T, N>& lhs, const nd_base<T, N> &rhs)
+	{
+		std::size_t depth = 0;
+		while (true)
+		{
+			if (lhs[depth] == rhs[depth] && depth < N)
+			{
+				depth++;
+			}
+			else if (depth == N)
+			{
+				// points are equal.
+				return true;
+			}
+			return lhs[depth] <= rhs[depth];
+		}
+	}
+
+	template<typename T, std::size_t N>
+	inline bool operator<(const nd_base<T, N>& lhs, const nd_base<T, N> &rhs)
+	{
+		std::size_t depth = 0;
+		while (true)
+		{
+			if (lhs[depth] == rhs[depth] && depth < N)
+			{
+				depth++;
+			}
+			else if (depth == N)
+			{
+				// points are equal so 
+				return false;
+			}
+			return lhs[depth] < rhs[depth];
+		}
+	}
+
+	template<typename T, std::size_t N>
+	inline bool operator==(const nd_base<T, N> &lhs, const nd_base<T, N> &rhs)
+	{
+		auto result = true;
+		for (auto i = 0; i < N; i++)
+		{
+			if (lhs[i] != rhs[i])
+			{
+				result = false;
+				break;
+			}
+		}
+
+		return result;
+	}
+#pragma endregion 
+
+#pragma region Utility functions
+	template<std::size_t N, typename T>
+	std::ostream& operator<<(std::ostream& stream, const nd_base<T, N> &point)
+	{
+		stream << std::setprecision(3) << "(";
+		for (auto i = 0; i < N; i++)
+		{
+			if (i < N - 1) stream << point[i] << ", ";
+			else stream << point[i];
+		}
+		stream << ")";
+		return stream;
+	}
+#pragma endregion 
 }

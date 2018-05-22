@@ -27,4 +27,10 @@ TEST(PointTests, TestConstruction)
 {
 	point<double> pt(2.0, 3.0);
 	point<double> empty;
+
+	ASSERT_EQ(pt.dimension(), 2);
+	ASSERT_EQ(empty.dimension(), 2);
+
+	ASSERT_DOUBLE_EQ(empty[0], 0.0);
+	ASSERT_DOUBLE_EQ(empty[1], 0.0);
 }
