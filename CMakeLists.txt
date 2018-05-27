@@ -14,3 +14,4 @@ if(RAYRAY_BUILD_TESTS)
 endif(RAYRAY_BUILD_TESTS)
 
 add_subdirectory(raytracer)
+add_subdirectory(sandbox)
