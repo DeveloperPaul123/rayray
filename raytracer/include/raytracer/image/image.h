@@ -80,19 +80,19 @@ namespace rayray
 	template <typename T>
 	T image<T>::at(const int& row, const int& column, const int& channel)
 	{
-		return data_[channel + column * 3 + row * width_];
+		return data_[channel + column * 3 + row * width_ * 3];
 	}
 
 	template <typename T>
 	T image<T>::at(const int& row, const int& column, const int& channel) const
 	{
-		return data_[channel + column * 3 + row * width_];
+		return data_[channel + column * 3 + row * width_ * 3];
 	}
 
 	template <typename T>
 	void image<T>::set(const int& row, const int& column, const int& channel, const T& value)
 	{
-		data_[channel + column * 3 + row * width_] = value;
+		data_[channel + column * 3 + row * width_ * 3] = value;
 	}
 
 	template <typename T>

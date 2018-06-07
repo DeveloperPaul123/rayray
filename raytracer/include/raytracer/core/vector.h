@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raytracer/core/nd_base.h"
+#include "point.h"
 
 namespace rayray
 {
@@ -16,6 +17,7 @@ namespace rayray
 		explicit vector(std::array<T, N> data);
 		~vector() = default;
 
+		operator point<T, N>();
 		self_type operator-();
 		self_type operator*(const T& value);
 		self_type operator*=(const T& value);
@@ -32,6 +34,7 @@ namespace rayray
 		typename std::enable_if<N >= 3, S>::type z() const;
 	};
 
+#pragma region Implementation
 	template <typename T, std::size_t N>
 	vector<T, N>::vector()
 		: nd_base<T,N>()
@@ -49,6 +52,17 @@ namespace rayray
 	vector<T, N>::vector(std::array<T, N> data)
 		:nd_base<T, N>(data)
 	{
+	}
+
+	template <typename T, std::size_t N>
+	vector<T, N>::operator point<T, N>()
+	{
+		point<T, N> result;
+		for (auto i = 0; i < N; i++)
+		{
+			result[i] = nd_base<T, N>::data_[i];
+		}
+		return result;
 	}
 
 	template <typename T, std::size_t N>
@@ -139,7 +153,7 @@ namespace rayray
 	{
 		return nd_base<T, N>::data_[2];
 	}
-
+#pragma endregion
 #pragma region Helper functions
 	template<typename T>
 	T dot(const vector<T, 3> &v1, const vector<T, 3> &v2)
@@ -181,6 +195,40 @@ namespace rayray
 		}
 
 		return return_data;
+	}
+
+	template<typename T, std::size_t N>
+	vector<T, N> operator-(const point<T, N> &first, const vector<T, N> &second)
+	{
+		vector<T, N> result;
+		for(auto i = 0; i < N; i++)
+		{
+			result[i] = first[i] - second[i];
+		}
+		return result;
+	}
+
+	template<typename T, std::size_t N>
+	vector<T, N> operator-(const vector<T, N> &first, const point<T, N> &second)
+	{
+		vector<T, N> result;
+		for(auto i = 0; i < N; i++)
+		{
+			result[i] = first[i] - second[i];
+		}
+		return result;
+	}
+
+	template<typename T, std::size_t N>
+	vector<T, N> operator/(const vector<T, N> &input, const T& value)
+	{
+		vector<T, N> result = input;
+		for(auto i = 0; i < N; i++)
+		{
+			result[i] /= value;
+		}
+
+		return result;
 	}
 #pragma endregion
 }

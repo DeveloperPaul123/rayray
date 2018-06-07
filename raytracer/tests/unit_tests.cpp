@@ -5,7 +5,8 @@
 #include "raytracer/core/vector.h"
 
 using namespace rayray;
-
+using vec3 = vector<double, 3>;
+using vec2 = vector<double, 2>;
 TEST(NdBaseTests, TestConstruction)
 {
 	nd_base<double, 3> base = { 1.0, 2.0, 3.0 };
@@ -22,6 +23,35 @@ TEST(NdBaseTests, TestConstruction)
 	ASSERT_DOUBLE_EQ(empty[0], 0.0);
 	ASSERT_DOUBLE_EQ(empty[1], 0.0);
 	ASSERT_DOUBLE_EQ(empty[2], 0.0);
+}
+
+TEST(NdBaseTests, TestSubtraction)
+{
+	nd_base<double, 3> first = { 1.0, 2.0, 3.0 };
+	nd_base<double, 3> second = { 2.0, 3.0, 4.0 };
+
+	auto result = second - first;
+	ASSERT_DOUBLE_EQ(result[0], 1.0);
+	ASSERT_DOUBLE_EQ(result[1], 1.0);
+	ASSERT_DOUBLE_EQ(result[2], 1.0);
+}
+
+TEST(NdBaseTests, TestSubtractionPointVector)
+{
+	const point<double, 3> first = { 1.0, 2.0, 3.0 };
+	const vector<double, 3> second = { 2.0, 3.0, 4.0 };
+	using base = nd_base<double, 3>;
+
+	auto result = second - first;
+	auto result_2 = first - second; 
+
+	ASSERT_DOUBLE_EQ(result[0], 1.0);
+	ASSERT_DOUBLE_EQ(result[1], 1.0);
+	ASSERT_DOUBLE_EQ(result[2], 1.0);
+
+	ASSERT_DOUBLE_EQ(result_2[0], -1.0);
+	ASSERT_DOUBLE_EQ(result_2[1], -1.0);
+	ASSERT_DOUBLE_EQ(result_2[2], -1.0);
 }
 
 TEST(PointTests, TestConstruction)
@@ -57,6 +87,17 @@ TEST(VectorTests, TestAddVectors)
 	ASSERT_DOUBLE_EQ(result_2d.y(), 5.0);
 }
 
+TEST(VectorTests, TestSubtraction)
+{
+	const vec3 first = { 1.0, 2.0, 3.0 };
+	const vec3 second = { 2.0, 3.0, 4.0 };
+	auto result = second - first;
+
+	ASSERT_DOUBLE_EQ(result[0], 1.0);
+	ASSERT_DOUBLE_EQ(result[1], 1.0);
+	ASSERT_DOUBLE_EQ(result[2], 1.0);
+}
+
 TEST(VectorTests, TestUnitVector)
 {
 	vector<double, 3> vec({ 1.0, 3.0, 2.0 });
@@ -67,4 +108,15 @@ TEST(VectorTests, TestUnitVector)
 	auto unit_vector = vec.to_unit_vector();
 
 	ASSERT_DOUBLE_EQ(unit_vector.length(), 1.0);
+}
+
+TEST(VectorTests, TestPointImplicitConversion)
+{
+	vector<double, 3> data = { 1.0, 2.0, 3.0 };
+	point<double, 3> point_data = data;
+
+	for(auto i = 0; i < 3; i++)
+	{
+		ASSERT_DOUBLE_EQ(data[i], point_data[i]);
+	}
 }

@@ -30,6 +30,10 @@ namespace rayray
 		nd_base& operator+=(const T& value);
 		nd_base operator-(const T& value);
 		nd_base& operator-=(const T& value);
+		nd_base operator+(const nd_base<T, N>& other);
+		nd_base& operator+=(const nd_base<T, N>& other);
+		nd_base operator-(const nd_base<T, N>& other);
+		nd_base& operator-=(const nd_base<T, N>& other);
 
     protected:
 		std::array<T, N> data_;
@@ -115,7 +119,63 @@ namespace rayray
 		return *this;
 	}
 
+	template <typename T, std::size_t N>
+	nd_base<T, N> nd_base<T, N>::operator+(const nd_base<T, N>& other)
+	{
+		return *this += other;
+	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N>& nd_base<T, N>::operator+=(const nd_base<T, N>& other)
+	{
+		for(auto i = 0; i < N; i++)
+		{
+			data_[i] += other[i];
+		}
+		return *this;
+	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N> nd_base<T, N>::operator-(const nd_base<T, N>& other)
+	{
+		return *this -= other;
+	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N>& nd_base<T, N>::operator-=(const nd_base<T, N>& other)
+	{
+		for(auto i = 0; i < N; i++)
+		{
+			data_[i] -= other[i];
+		}
+		return *this;
+	}
+
 #pragma region Comparison overloads
+
+	template <typename T, std::size_t N>
+	inline nd_base<T, N> operator/(const nd_base<T, N> &input, const T& value)
+	{
+		auto result = input;
+		for(auto i = 0; i < N; i++)
+		{
+			result[i] /= value;
+		}
+		return result;
+	}
+
+	template<typename T, std::size_t N>
+	inline nd_base<T, N> operator-(const nd_base<T, N> &first, const nd_base<T, N> &second)
+	{
+		nd_base<T, N> result;
+		for(auto i = 0; i < N; i++)
+		{
+			result[i] = first[i] - second[i];
+		}
+
+		return result;
+	}
+
 	template<typename T, std::size_t N>
 	inline bool operator>=(const nd_base<T, N>& lhs, const nd_base<T, N>& rhs)
 	{

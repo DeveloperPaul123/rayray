@@ -3,6 +3,8 @@
 #include <memory>
 #include <iostream>
 #include <fstream>
+#include "raytracer/image/image.h"
+#include "raytracer/image/image_io.h"
 
 rayray::vector<double, 3> color(const rayray::ray & r)
 {
@@ -15,28 +17,17 @@ rayray::vector<double, 3> color(const rayray::ray & r)
 int main(int argc, char* argv[])
 {
 	using vec3 = rayray::vector<double, 3>;
-
-	std::ofstream output_image;
-
-	try
-	{
-		output_image.open("output.ppm", std::ios_base::out);
-	}
-	catch(std::exception &e)
-	{
-		std::cout << "Could not open image: " << e.what() << std::endl;
-	}
+	using uchar = unsigned char;
+	const std::string output_file = "output.ppm";
 
 	const auto width = 200;
 	const auto height = 100;
-	auto image_data = std::make_unique<unsigned char[]>(width*height);
+	auto output_image = rayray::image<uchar>(width, height);
 
 	const vec3 lower_left_corner({ -2.0, -1.0, -1.0 });
 	const vec3 horizontal({ 4.0, 0.0, 0.0 });
 	const vec3 vertical({ 0.0, 2.0, 0.0 });
 	const vec3 origin({ 0.0, 0.0, 0.0 });
-
-	output_image << "P3\n" << width << " " << height << "\n255\n";
 
 	for(auto j = 0; j < height; j++)
 	{
@@ -51,12 +42,18 @@ int main(int argc, char* argv[])
 			const auto ir = int(255.99 * col[0]);
 			const auto ig = int(255.99 * col[1]);
 			const auto ib = int(255.99 * col[2]);
-
-			std::string delimiter = i < width-1 ? " " : "\n";
-			output_image << ir << " " << ig << " " << ib << delimiter.data();
+			
+			output_image.set(j, i, rayray::channel::red, uchar(ir));
+			output_image.set(j, i, rayray::channel::green, uchar(ig));
+			output_image.set(j, i, rayray::channel::blue, uchar(ib));
 		}
 	}
 
-	output_image.close();
+	const auto ok = rayray::write_ppm_image(output_image, output_file);
+
+	if(!ok)
+	{
+		std::cout << "Could not output image." << std::endl;
+	}
 	return 0;
 }
