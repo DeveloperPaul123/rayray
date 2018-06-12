@@ -15,9 +15,12 @@ namespace rayray
 		using value_type = T;
 		using value_type_reference = T & ;
 		using size_type = std::size_t;
+		using iterator = typename std::array<T, N>::iterator;
+		using const_iterator = typename std::array<T, N>::const_iterator;
 
 		nd_base();
 		~nd_base() = default;
+		explicit nd_base(const T& default_value);
 		explicit nd_base(std::array<T, N> data);
 		nd_base(std::initializer_list<T> data);
 	
@@ -35,6 +38,10 @@ namespace rayray
 		nd_base operator-(const nd_base<T, N>& other);
 		nd_base& operator-=(const nd_base<T, N>& other);
 
+		iterator begin();
+		iterator end();
+		const_iterator begin() const;
+		const_iterator end() const;
     protected:
 		std::array<T, N> data_;
 	};
@@ -42,7 +49,13 @@ namespace rayray
 	template <typename T, std::size_t N>
 	nd_base<T, N>::nd_base()
 	{
-		std::fill(data_.begin(), data_.end(), T());
+		std::fill(begin(), end(), T());
+	}
+
+	template <typename T, std::size_t N>
+	nd_base<T, N>::nd_base(const T& default_value)
+	{
+		std::fill(begin(), end(), default_value);
 	}
 
 	template <typename T, std::size_t N>
@@ -149,6 +162,30 @@ namespace rayray
 			data_[i] -= other[i];
 		}
 		return *this;
+	}
+
+	template <typename T, std::size_t N>
+	typename nd_base<T, N>::iterator nd_base<T, N>::begin()
+	{
+		return data_.begin();
+	}
+
+	template <typename T, std::size_t N>
+	typename nd_base<T, N>::iterator nd_base<T, N>::end()
+	{
+		return data_.end();
+	}
+
+	template <typename T, std::size_t N>
+	typename nd_base<T, N>::const_iterator nd_base<T, N>::begin() const
+	{
+		return data_.begin();
+	}
+
+	template <typename T, std::size_t N>
+	typename nd_base<T, N>::const_iterator nd_base<T, N>::end() const
+	{
+		return data_.end();
 	}
 
 #pragma region Comparison overloads
