@@ -11,5 +11,7 @@ namespace rayray
 	private:
 		point<double, 3> center_;
 		double radius_;
+		static const double k_epsilon;
+
 	};
 }
