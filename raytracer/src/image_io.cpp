@@ -1,4 +1,3 @@
-#pragma once
 #include "raytracer/image/image_io.h"
 #include <fstream>
 

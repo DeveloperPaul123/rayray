@@ -11,8 +11,6 @@ rayray::sphere::sphere(const point<double, 3>& center, const double& radius)
 
 bool rayray::sphere::hit(const rayray::ray& ray, double& t_min, rayray::shade_rec& sr) const
 {
-	using vec3 = vector<double, 3>;
-
 	// remember that a ray can be parameterized as origin + t * direction
 	// "t" is the ray parameter. 
 	// to solve for t using the equation for a sphere leads to a quadratic of the form
