@@ -11,24 +11,30 @@ set(project_headers
     include/raytracer/core/scene.h
     include/raytracer/core/shade_rec.h
     include/raytracer/core/rgb_color.h
+    include/raytracer/core/view_plane.h
+    include/raytracer/core/scene_renderer.h
     include/raytracer/image/image.h
     include/raytracer/image/image_io.h
     include/raytracer/geometry/geometric_object.h
     include/raytracer/geometry/sphere.h
     include/raytracer/geometry/plane.h
     include/raytracer/tracers/tracer.h
-    include/raytracer/tracers/single_sphere_tracer.h)
+    include/raytracer/tracers/single_sphere_tracer.h
+    include/raytracer/tracers/multi_object_tracer.h)
 
 set(project_sources
     src/image_io.cpp
     src/ray.cpp
     src/sphere.cpp
     src/plane.cpp
+    src/view_plane.cpp
     src/scene.cpp
     src/shade_rec.cpp
     src/rgb_color.cpp
     src/tracer.cpp
-    src/single_sphere_tracer.cpp)
+    src/single_sphere_tracer.cpp
+    src/scene_renderer.cpp
+    src/multi_object_tracer.cpp)
 
 add_library(${PROJECT_NAME} ${project_headers} ${project_sources})
 

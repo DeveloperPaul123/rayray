@@ -59,3 +59,23 @@ bool rayray::sphere::hit(const rayray::ray& ray, double& t_min, rayray::shade_re
 	}
 	return false;
 }
+
+rayray::point<double, 3> rayray::sphere::center() const
+{
+    return center_;
+}
+
+void rayray::sphere::set_center(const point<double, 3>& center)
+{
+    center_ = center;
+}
+
+double rayray::sphere::radius() const
+{
+    return radius_;
+}
+
+void rayray::sphere::set_radius(const double radius)
+{
+    radius_ = radius;
+}

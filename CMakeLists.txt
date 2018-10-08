@@ -10,7 +10,11 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 option(RAYRAY_BUILD_TESTS "Turn on to build unit tests." OFF)
 
 if(RAYRAY_BUILD_TESTS)
-    include(ExternalGoogleTest)
+    find_package(GTest)
+    if(NOT GTest_FOUND)
+        message(STATUS "Could not find GTest including external project.")
+        include(ExternalGoogleTest)
+    endif(NOT GTest_FOUND)
 endif(RAYRAY_BUILD_TESTS)
 
 add_subdirectory(raytracer)

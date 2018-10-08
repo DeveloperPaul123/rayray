@@ -12,7 +12,7 @@ namespace rayray
 		point<double, 3> local_hit_point;
 		scene& scene_ref;
 		vector<double, 3> normal;
-
+        rgb_color color;
 		shade_rec(scene& scene);
 	};
 }

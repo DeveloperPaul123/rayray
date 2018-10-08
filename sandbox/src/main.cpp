@@ -5,6 +5,11 @@
 #include <fstream>
 #include "raytracer/image/image.h"
 #include "raytracer/image/image_io.h"
+#include "raytracer/core/scene.h"
+#include "raytracer/tracers/single_sphere_tracer.h"
+#include "raytracer/core/scene_renderer.h"
+#include "raytracer/tracers/multi_object_tracer.h"
+#include "raytracer/geometry/plane.h"
 
 rayray::vector<double, 3> color(const rayray::ray & r)
 {
@@ -18,38 +23,26 @@ int main(int argc, char* argv[])
 {
 	using vec3 = rayray::vector<double, 3>;
 	using uchar = unsigned char;
-	const std::string output_file = "output.ppm";
+	const std::string output = "output.ppm";
 
-	const auto width = 200;
-	const auto height = 100;
-	auto output_image = rayray::image<uchar>(width, height);
+    rayray::sphere sp1({ 0.0, -25.0, 0.0 }, 80.0);
+    sp1.set_color(rayray::red());
 
-	const vec3 lower_left_corner({ -2.0, -1.0, -1.0 });
-	const vec3 horizontal({ 4.0, 0.0, 0.0 });
-	const vec3 vertical({ 0.0, 2.0, 0.0 });
-	const vec3 origin({ 0.0, 0.0, 0.0 });
+    rayray::sphere sp2({ 0, 30, 0 }, 60);
+    sp2.set_color(rayray::yellow());
 
-	for(auto j = 0; j < height; j++)
-	{
-		for(auto i = 0; i < width; i++)
-		{
-			auto u = double(i) / double(width);
-			auto v = double(j) / double(height);
+    rayray::plane plane({ 0, 0, 0 }, { 0, 1, 1 });
+    plane.set_color({ 0.0, 0.3,0.0 });
 
-			const rayray::ray ray(origin, lower_left_corner + u * horizontal + v * vertical);
-			auto col = color(ray);
+    rayray::scene basic_scene;
+    basic_scene.add_object(&sp1);
+    basic_scene.add_object(&sp2);
+    basic_scene.add_object(&plane);
 
-			const auto ir = int(255.99 * col[0]);
-			const auto ig = int(255.99 * col[1]);
-			const auto ib = int(255.99 * col[2]);
-			
-			output_image.set(j, i, rayray::channel::red, uchar(ir));
-			output_image.set(j, i, rayray::channel::green, uchar(ig));
-			output_image.set(j, i, rayray::channel::blue, uchar(ib));
-		}
-	}
-
-	const auto ok = rayray::write_ppm_image(output_image, output_file);
+    rayray::multi_object_tracer multi_object_tracer(&basic_scene);
+    rayray::scene_renderer sphere_renderer(&basic_scene, &multi_object_tracer);
+    auto output_image = sphere_renderer.render<unsigned char>();
+	const auto ok = rayray::write_ppm_image(output_image, output);
 
 	if(!ok)
 	{

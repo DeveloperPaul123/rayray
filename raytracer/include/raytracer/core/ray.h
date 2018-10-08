@@ -12,6 +12,8 @@ namespace rayray
 		ray(const vec3 &origin, const vec3 & direction);
 		~ray() = default;
 
+        void set_direction(const vec3 &dir);
+        void set_origin(const vec3 &origin);
 		vec3 origin() const;
 		vec3 direction() const;
 	private:

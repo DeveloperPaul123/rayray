@@ -8,6 +8,10 @@ rayray::rgb_color::rgb_color()
 rayray::rgb_color::rgb_color(const double& red, const double& green, const double& blue)
 	:nd_base<double, 3>({red, green, blue})
 {
+    if (red < 0.0 || green < 0.0 || blue < 0.0 || red > 1.0 || green > 1.0 || blue > 1.0) 
+    {
+        throw std::exception("Invalid input color.");
+    }
 }
 
 double rayray::rgb_color::red() const

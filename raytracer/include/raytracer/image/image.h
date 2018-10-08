@@ -3,7 +3,7 @@
 
 namespace rayray
 {
-	enum channel
+	enum class channel
 	{
 		red = 0,
 		green = 1,

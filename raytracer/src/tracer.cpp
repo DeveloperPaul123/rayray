@@ -11,3 +11,8 @@ rayray::tracer::tracer(scene* scene_ptr)
 	
 }
 
+void rayray::tracer::set_scene(scene* scene_ptr)
+{
+    scene_ptr_ = scene_ptr;
+}
+

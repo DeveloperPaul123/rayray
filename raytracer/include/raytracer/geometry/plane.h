@@ -14,6 +14,5 @@ namespace rayray
 		point<double, 3> point_;
 		vector<double, 3> normal_;
 		static const double k_epsilon;
-
 	};
 }
