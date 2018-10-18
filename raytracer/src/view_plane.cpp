@@ -1,4 +1,5 @@
 #include "raytracer/core/view_plane.h"
+#include "raytracer/samplers/sampler.h"
 
 rayray::view_plane::view_plane(const int& h_res, const int& v_res, const float& pixel_size, const float& gamma)
     : horizontal_resolution_(h_res), vertical_resolution_(v_res), pixel_size_(pixel_size), 
@@ -55,3 +56,16 @@ void rayray::view_plane::set_inverse_gamma(float inverse_gamma)
 {
     inverse_gamma_ = inverse_gamma;
 }
+
+
+void rayray::view_plane::set_sampler(rayray::sampler* sampler)
+{
+    sampler_ = sampler;
+}
+
+rayray::sampler* rayray::view_plane::sampler() const
+{
+    return sampler_;
+}
+
+

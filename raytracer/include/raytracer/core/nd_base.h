@@ -2,6 +2,7 @@
 #include <ostream>
 #include <array>
 #include <iomanip>
+#include <type_traits>
 
 namespace rayray
 {
@@ -20,7 +21,7 @@ namespace rayray
 
 		nd_base();
 		~nd_base() = default;
-		explicit nd_base(const T& default_value);
+		explicit nd_base(const T&& default_value);
 		explicit nd_base(std::array<T, N> data);
 		nd_base(std::initializer_list<T> data);
 	
@@ -37,6 +38,8 @@ namespace rayray
 		nd_base& operator+=(const nd_base<T, N>& other);
 		nd_base operator-(const nd_base<T, N>& other);
 		nd_base& operator-=(const nd_base<T, N>& other);
+        nd_base operator/(const T& value);
+        nd_base& operator/=(const T& value);
 
 		iterator begin();
 		iterator end();
@@ -53,7 +56,7 @@ namespace rayray
 	}
 
 	template <typename T, std::size_t N>
-	nd_base<T, N>::nd_base(const T& default_value)
+	nd_base<T, N>::nd_base(const T&& default_value)
 	{
 		std::fill(begin(), end(), default_value);
 	}
@@ -164,7 +167,24 @@ namespace rayray
 		return *this;
 	}
 
-	template <typename T, std::size_t N>
+    template <typename T, std::size_t N>
+    nd_base<T, N> nd_base<T, N>::operator/(const T& value)
+    {
+        return *this /= value;
+    }
+
+    template <typename T, std::size_t N>
+    nd_base<T, N>& nd_base<T, N>::operator/=(const T& value)
+    {
+        for(auto i = 0; i < N; i++)
+        {
+            data_[i] /= value;
+        }
+
+        return *this;
+    }
+
+    template <typename T, std::size_t N>
 	typename nd_base<T, N>::iterator nd_base<T, N>::begin()
 	{
 		return data_.begin();

@@ -2,6 +2,8 @@
 
 namespace rayray
 {
+    class sampler;
+
     class view_plane
     {
         int horizontal_resolution_{ 1 };
@@ -9,6 +11,7 @@ namespace rayray
         float pixel_size_{ 1.0 };
         float gamma_{ 1.0 };
         float inverse_gamma_{ 1.0 };
+        sampler* sampler_{nullptr};
 
     public:
         view_plane(const int &h_res, const int &v_res, const float &pixel_size, const float &gamma);
@@ -22,5 +25,7 @@ namespace rayray
         void set_gamma(const float gamma);
         float inverse_gamma() const;
         void set_inverse_gamma(const float inverse_gamma);
+        void set_sampler(sampler* sampler);
+        sampler* sampler() const;
     };
 }

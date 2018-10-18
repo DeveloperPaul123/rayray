@@ -1,6 +1,7 @@
 #pragma once
-#include "scene.h"
+#include "raytracer/core/scene.h"
 #include "raytracer/tracers/tracer.h"
+#include "raytracer/samplers/sampler.h"
 #include <cassert>
 
 namespace rayray
@@ -29,14 +30,25 @@ namespace rayray
             auto horz_res = vp.horizontal_resolution();
             auto vert_res = vp.vertical_resolution();
             auto gamma = vp.gamma();
+            assert(vp.sampler());
+            const auto samples = vp.sampler()->number_samples();
             for (auto r = 0; r < vp.vertical_resolution(); r++)
             {
                 for (auto c = 0; c < vp.horizontal_resolution(); c++)
                 {
-                    auto x = pixel_size * (c - 0.5 * (horz_res - 1.0));
-                    auto y = pixel_size * (r - 0.5 * (vert_res - 1.0));
-                    ray.set_origin({ x, y, zw });
-                    auto color = tracer_->trace_ray(ray);
+                    // default color is the background color
+                    auto color = scene_->background_color();
+                    // iterate through all the samples.
+                    for(auto j = 0; j < samples; j++)
+                    {
+                        auto sample_point = vp.sampler()->sample_unit_square();
+                        auto x = pixel_size * (c - 0.5 * horz_res + sample_point.x());
+                        auto y = pixel_size * (r - 0.5 * vert_res + sample_point.y());
+                        ray.set_origin({ x, y, zw });
+                        color += tracer_->trace_ray(ray);
+                    }
+                    
+                    color /= static_cast<double>(samples);
                     // gamma correction
                     if (gamma != 1.0)
                     {

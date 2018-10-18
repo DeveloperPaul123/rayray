@@ -1,15 +1,14 @@
 
 #include <raytracer/core/ray.h>
-#include <memory>
 #include <iostream>
-#include <fstream>
 #include "raytracer/image/image.h"
 #include "raytracer/image/image_io.h"
 #include "raytracer/core/scene.h"
-#include "raytracer/tracers/single_sphere_tracer.h"
 #include "raytracer/core/scene_renderer.h"
 #include "raytracer/tracers/multi_object_tracer.h"
 #include "raytracer/geometry/plane.h"
+#include "raytracer/samplers/jittered_sampler.h"
+#include "raytracer/samplers/multijittered_sampler.h"
 
 rayray::vector<double, 3> color(const rayray::ray & r)
 {
@@ -39,14 +38,25 @@ int main(int argc, char* argv[])
     basic_scene.add_object(&sp2);
     basic_scene.add_object(&plane);
 
+    rayray::view_plane view_plane(550, 550, 1.0, 1.0);
+    // initialize the sampler and generate the samples
+    rayray::multijittered_sampler sampler(25); 
+    sampler.generate_samples();
+
+    view_plane.set_sampler(&sampler);
+    basic_scene.set_view_plane(view_plane);
+
     rayray::multi_object_tracer multi_object_tracer(&basic_scene);
+
     rayray::scene_renderer sphere_renderer(&basic_scene, &multi_object_tracer);
     auto output_image = sphere_renderer.render<unsigned char>();
-	const auto ok = rayray::write_ppm_image(output_image, output);
+	const auto ok = rayray::io::write_ppm_image(output_image, output);
 
 	if(!ok)
 	{
 		std::cout << "Could not output image." << std::endl;
+        return -1;
 	}
+
 	return 0;
 }

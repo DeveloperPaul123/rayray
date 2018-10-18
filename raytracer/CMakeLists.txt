@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.11.0 FATAL_ERROR)
 
 project(raytracer)
 
-set(project_headers
+set(project_core_headers
     include/raytracer/core/nd_base.h
     include/raytracer/core/point.h
     include/raytracer/core/vector.h 
@@ -13,14 +13,48 @@ set(project_headers
     include/raytracer/core/rgb_color.h
     include/raytracer/core/view_plane.h
     include/raytracer/core/scene_renderer.h
+)
+
+set(project_image_headers
     include/raytracer/image/image.h
     include/raytracer/image/image_io.h
+)
+
+set(project_geometry_headers
     include/raytracer/geometry/geometric_object.h
     include/raytracer/geometry/sphere.h
     include/raytracer/geometry/plane.h
+)
+
+set(project_tracer_headers
     include/raytracer/tracers/tracer.h
     include/raytracer/tracers/single_sphere_tracer.h
-    include/raytracer/tracers/multi_object_tracer.h)
+    include/raytracer/tracers/multi_object_tracer.h
+)
+
+set(project_samplers_headers
+    include/raytracer/samplers/sampler.h
+    include/raytracer/samplers/regular_sampler.h
+    include/raytracer/samplers/jittered_sampler.h
+    include/raytracer/samplers/pure_random_sampler.h
+    include/raytracer/samplers/multijittered_sampler.h
+    include/raytracer/samplers/nrooks_sampler.h
+    include/raytracer/samplers/hammersley_sampler.h
+)
+
+set(project_utilities_headers
+    include/raytracer/utilities/math.h
+    include/raytracer/utilities/constants.h
+)
+
+set(project_headers
+    ${project_core_headers}
+    ${project_image_headers}
+    ${project_geometry_headers}
+    ${project_tracer_headers}
+    ${project_samplers_headers}
+    ${project_utilities_headers}
+    )
 
 set(project_sources
     src/image_io.cpp
@@ -34,7 +68,23 @@ set(project_sources
     src/tracer.cpp
     src/single_sphere_tracer.cpp
     src/scene_renderer.cpp
-    src/multi_object_tracer.cpp)
+    src/multi_object_tracer.cpp
+    src/sampler.cpp
+    src/jittered_sampler.cpp
+    src/pure_random_sampler.cpp
+    src/regular_sampler.cpp
+    src/nrooks_sampler.cpp
+    src/hammersley_sampler.cpp
+    src/multijittered_sampler.cpp
+    src/math.cpp
+    )
+
+source_group("Header Files\\Core" FILES ${project_core_headers})
+source_group("Header Files\\Image" FILES ${project_image_headers})
+source_group("Header Files\\Geometry" FILES ${project_geometry_headers})
+source_group("Header Files\\Tracer" FILES ${project_tracer_headers})
+source_group("Header Files\\Samplers" FILES ${project_samplers_headers})
+source_group("Header Files\\Utilities" FILES ${project_utilities_headers})
 
 add_library(${PROJECT_NAME} ${project_headers} ${project_sources})
 
