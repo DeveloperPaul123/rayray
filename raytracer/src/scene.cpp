@@ -3,49 +3,13 @@
 #include "raytracer/image/image_io.h"
 #include "raytracer/core/shade_rec.h"
 
-rayray::scene::scene() : sphere_({ 0.0, 0.0, 0.0 }, 0.0), view_plane_(200, 200, 1.0, 1.0)
+rayray::scene::scene() : view_plane_(200, 200, 1.0, 1.0)
 {
-    sphere_.set_center({ 0.0, 0.0,0.0 });
-    sphere_.set_radius(85.0);
 }
 
 rayray::scene::~scene()
 {
 }
-
-//rayray::image<unsigned char> rayray::scene::render()
-//{
-//    ray ray;
-//    const auto zw = 100.0;
-//    image<unsigned char> output_image(view_plane_.horizontal_resolution(), view_plane_.vertical_resolution());
-//
-//    ray.set_direction({ 0.0, 0.0, -1.0 });
-//
-//    auto pixel_size = view_plane_.pixel_size();
-//    auto horz_res = view_plane_.horizontal_resolution();
-//    auto vert_res = view_plane_.vertical_resolution();
-//    auto gamma = view_plane_.gamma();
-//    for(auto r = 0; r < view_plane_.vertical_resolution(); r++)
-//    {
-//        for(auto c = 0; c < view_plane_.horizontal_resolution(); c++)
-//        {
-//            auto x = pixel_size * (c - 0.5 * (horz_res - 1.0));
-//            auto y = pixel_size * (r - 0.5 * (vert_res - 1.0));
-//            ray.set_origin({ x, y, zw });
-//            auto color = tracer_ptr_->trace_ray(ray);
-//            // gamma correction
-//            if(gamma != 1.0)
-//            {
-//                color = color ^ view_plane_.inverse_gamma();
-//            }
-//            output_image.set(r, c, 0, color.red() * 255);
-//            output_image.set(r, c, 1, color.green() * 255);
-//            output_image.set(r, c, 2, color.blue() * 255);
-//        }
-//    }
-//
-//    return output_image;
-//}
 
 void rayray::scene::add_object(rayray::geometric_object* object)
 {

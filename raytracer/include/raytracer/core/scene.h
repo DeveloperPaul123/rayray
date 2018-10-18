@@ -14,10 +14,8 @@ namespace rayray
 	class scene
 	{
 	public:
-		sphere sphere_;
 		scene();
         virtual ~scene();
-//        virtual image<unsigned char> render();
         void add_object(rayray::geometric_object* object);
         std::vector<rayray::geometric_object*> objects() const;
 
