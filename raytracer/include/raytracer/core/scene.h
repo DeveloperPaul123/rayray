@@ -16,6 +16,8 @@ namespace rayray
 	public:
 		scene();
         virtual ~scene();
+        void set_tracer(tracer *t);
+        tracer* tracer_ptr() const;
         void add_object(rayray::geometric_object* object);
         std::vector<rayray::geometric_object*> objects() const;
 
@@ -24,10 +26,11 @@ namespace rayray
 	    const rgb_color& background_color() const;
 	    void set_background_color(const rgb_color& background_color);
 
-        shade_rec hit_bare_bones_objects(const ray &ray);
+        shade_rec hit_objects(const ray &ray);
 	private:
         rayray::view_plane view_plane_;
 		rgb_color background_color_;
 		std::vector<rayray::geometric_object*> hit_objects_;
+        tracer *tracer_{ nullptr };
 	};
 }

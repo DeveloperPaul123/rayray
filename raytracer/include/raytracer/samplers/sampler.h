@@ -8,11 +8,14 @@ namespace rayray
     {
     private:
         void init_data();
+        
     protected:
         ~sampler();
         int number_samples_{ 0 };
         int number_sets_{ 0 };
         std::vector<point<double, 2>> samples_;
+        std::vector<point<double, 2>> disk_samples_;
+        std::vector<point<double, 3>> hemisphere_samples_;
         std::vector<int> shuffled_indices_;
         unsigned long count_{0};
         int jump_{0};
@@ -36,5 +39,8 @@ namespace rayray
         void setup_shuffled_indices();
         void shuffle_samples();
         point<double, 2> sample_unit_square();
+
+        void map_samples_to_unit_disk();
+        void map_samples_to_hemisphere(const double e);
     };
 }

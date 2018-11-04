@@ -11,6 +11,16 @@ rayray::scene::~scene()
 {
 }
 
+void rayray::scene::set_tracer(rayray::tracer* t)
+{
+    tracer_ = t;
+}
+
+rayray::tracer* rayray::scene::tracer_ptr() const
+{
+    return tracer_;
+}
+
 void rayray::scene::add_object(rayray::geometric_object* object)
 {
     hit_objects_.push_back(object);
@@ -41,12 +51,14 @@ void rayray::scene::set_background_color(const rgb_color& background_color)
     background_color_ = background_color;
 }
 
-rayray::shade_rec rayray::scene::hit_bare_bones_objects(const ray& ray)
+rayray::shade_rec rayray::scene::hit_objects(const ray& ray)
 {
     shade_rec shade_rec(*this);
     double t;
-    double t_min = 1000000000000000000.0;
+    auto t_min = 1000000000000000000.0;
     auto num_objects = hit_objects_.size();
+    vector<double, 3> normal;
+    point<double, 3> local_hit_point;
     for(auto &object : hit_objects_)
     {
         if(object->hit(ray, t, shade_rec) && t < t_min)
@@ -54,7 +66,16 @@ rayray::shade_rec rayray::scene::hit_bare_bones_objects(const ray& ray)
             shade_rec.hit_object = true;
             t_min = t;
             shade_rec.color = object->color();
+            local_hit_point = ray.origin() + t * ray.direction();
+            normal = shade_rec.normal;
         }
+    }
+
+    if(shade_rec.hit_object)
+    {
+        shade_rec.t = t_min;
+        shade_rec.normal = normal;
+        shade_rec.local_hit_point = local_hit_point;
     }
 
     return shade_rec;

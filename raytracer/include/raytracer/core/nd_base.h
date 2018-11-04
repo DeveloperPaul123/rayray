@@ -40,6 +40,8 @@ namespace rayray
 		nd_base& operator-=(const nd_base<T, N>& other);
         nd_base operator/(const T& value);
         nd_base& operator/=(const T& value);
+        nd_base operator*(const T& value);
+        nd_base& operator*=(const T& value);
 
 		iterator begin();
 		iterator end();
@@ -181,6 +183,22 @@ namespace rayray
             data_[i] /= value;
         }
 
+        return *this;
+    }
+
+    template <typename T, std::size_t N>
+    nd_base<T, N> nd_base<T, N>::operator*(const T& value)
+    {
+        return *this *= value;
+    }
+
+    template <typename T, std::size_t N>
+    nd_base<T, N>& nd_base<T, N>::operator*=(const T& value)
+    {
+        for(auto i = 0; i < N; i++)
+        {
+            data_[i] *= value;
+        }
         return *this;
     }
 

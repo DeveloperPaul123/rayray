@@ -9,6 +9,7 @@
 #include "raytracer/geometry/plane.h"
 #include "raytracer/samplers/jittered_sampler.h"
 #include "raytracer/samplers/multijittered_sampler.h"
+#include "raytracer/cameras/pinhole_camera.h"
 
 rayray::vector<double, 3> color(const rayray::ray & r)
 {
@@ -22,23 +23,22 @@ int main(int argc, char* argv[])
 {
 	using vec3 = rayray::vector<double, 3>;
 	using uchar = unsigned char;
-	const std::string output = "output.ppm";
 
-    rayray::sphere sp1({ 0.0, -25.0, 0.0 }, 80.0);
+    rayray::pinhole_camera camera;
+    camera.set_eye(0, 0, 500);
+    camera.set_lookat(0, 0, 0);
+    camera.set_view_plane_distance(500);
+    camera.compute_uvw();
+
+    rayray::sphere sp1({ -45.0, 45.0, 40.0 }, 50.0);
     sp1.set_color(rayray::red());
-
-    rayray::sphere sp2({ 0, 30, 0 }, 60);
-    sp2.set_color(rayray::yellow());
-
-    rayray::plane plane({ 0, 0, 0 }, { 0, 1, 1 });
-    plane.set_color({ 0.0, 0.3,0.0 });
 
     rayray::scene basic_scene;
     basic_scene.add_object(&sp1);
-    basic_scene.add_object(&sp2);
-    basic_scene.add_object(&plane);
+    basic_scene.set_background_color({ 0.0, 0.0, 1.0 });
 
-    rayray::view_plane view_plane(550, 550, 1.0, 1.0);
+    rayray::view_plane view_plane(300, 300, 1.0, 1.0);
+
     // initialize the sampler and generate the samples
     rayray::multijittered_sampler sampler(25); 
     sampler.generate_samples();
@@ -47,10 +47,11 @@ int main(int argc, char* argv[])
     basic_scene.set_view_plane(view_plane);
 
     rayray::multi_object_tracer multi_object_tracer(&basic_scene);
+    basic_scene.set_tracer(&multi_object_tracer);
 
-    rayray::scene_renderer sphere_renderer(&basic_scene, &multi_object_tracer);
-    auto output_image = sphere_renderer.render<unsigned char>();
-	const auto ok = rayray::io::write_ppm_image(output_image, output);
+    auto output_image = camera.render_scene(basic_scene);
+
+	const auto ok = rayray::io::write_ppm_image(output_image, "output.ppm");
 
 	if(!ok)
 	{

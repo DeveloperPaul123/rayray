@@ -13,6 +13,7 @@ namespace rayray
 		scene& scene_ref;
 		vector<double, 3> normal;
         rgb_color color;
+        double t;
 		shade_rec(scene& scene);
 	};
 }

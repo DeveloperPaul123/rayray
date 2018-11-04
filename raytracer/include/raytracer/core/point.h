@@ -18,9 +18,12 @@ namespace rayray
 		explicit point(const T& x);
 		point(const T& x, const T& y);
 		point(const T& x, const T& y, const T& z);
+
 		typename nd_base<T, N>::value_type x() const;
+
 		template<class S = typename nd_base<T, N>::value_type>
 		typename std::enable_if<N >= 2, S>::type y() const;
+
 		template<class S = typename nd_base<T, N>::value_type>
 		typename std::enable_if<N >= 3, S>::type z() const;
 	};

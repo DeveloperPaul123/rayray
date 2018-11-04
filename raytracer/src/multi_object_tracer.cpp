@@ -15,7 +15,7 @@ rayray::multi_object_tracer::multi_object_tracer(scene* scene_ptr)
 
 rayray::rgb_color rayray::multi_object_tracer::trace_ray(const rayray::ray & ray) const
 {
-    shade_rec sr(scene_ptr_->hit_bare_bones_objects(ray));
+    shade_rec sr(scene_ptr_->hit_objects(ray));
     if(sr.hit_object)
     {
         return sr.color;
