@@ -67,7 +67,7 @@ namespace rayray
         template<typename ImageType>
         image<ImageType> render_perspective()
         {
-            auto eye = 50;
+            auto eye = 50.0;
             assert(scene_ != nullptr);
             assert(tracer_ != nullptr);
 

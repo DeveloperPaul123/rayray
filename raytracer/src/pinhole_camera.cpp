@@ -3,6 +3,7 @@
 #include "raytracer/tracers/tracer.h"
 
 #include <cassert>
+#include <algorithm>
 
 rayray::pinhole_camera::pinhole_camera()
     :camera(), d_(500), zoom_(1.0)
