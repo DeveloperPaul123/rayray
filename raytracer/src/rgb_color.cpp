@@ -1,5 +1,19 @@
 #include "raytracer/core/rgb_color.h"
 
+#include <exception>
+#include <cmath>
+
+rayray::color_exception::color_exception()
+ : std::exception()
+{
+
+}
+
+const char* rayray::color_exception::what() const noexcept
+{
+	return "Invalid color. Color values must be between 0.0 and 1.0";
+}
+
 rayray::rgb_color::rgb_color()
 	: nd_base<double, 3>(0.0) // default color is black
 {
@@ -10,7 +24,7 @@ rayray::rgb_color::rgb_color(const double& red, const double& green, const doubl
 {
     if (red < 0.0 || green < 0.0 || blue < 0.0 || red > 1.0 || green > 1.0 || blue > 1.0) 
     {
-        throw std::exception("Invalid input color.");
+        throw rayray::color_exception();
     }
 }
 

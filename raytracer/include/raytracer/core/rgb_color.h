@@ -4,6 +4,13 @@
 
 namespace rayray
 {
+	class color_exception : public std::exception
+	{
+		public:
+			color_exception();
+			const char* what() const noexcept override;
+	};
+	
 	class rgb_color : public nd_base<double, 3>
 	{
 	public:
