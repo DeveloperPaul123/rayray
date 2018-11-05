@@ -117,7 +117,7 @@ namespace rayray
 	void image<T>::operator=(const image& other)
 	{
 		width_ = other.width_;
-		height = other.height_;
+		height_ = other.height_;
 		data_ = std::make_unique<T[]>(other.size());
 		std::copy(other.begin(), other.end(), begin());
 	}

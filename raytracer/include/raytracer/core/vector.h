@@ -3,6 +3,8 @@
 #include "raytracer/core/nd_base.h"
 #include "point.h"
 
+#include <cmath>
+
 namespace rayray
 {
 	template<typename T, std::size_t N>

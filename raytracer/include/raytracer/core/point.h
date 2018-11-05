@@ -1,5 +1,6 @@
 #pragma once
 #include <ostream>
+#include <cmath>
 
 #include "raytracer/core/nd_base.h"
 
