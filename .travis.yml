@@ -1,0 +1,16 @@
+dist: trusty
+sudo: false
+language: cpp
+
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-trusty-5.0
+      - ubuntu-toolchain-r-test
+    packages:
+      - clang-5.0
+      - g++-6 
+
+script:
+  - CXX=/usr/bin/clang++-5.0 CC=/usr/bin/clang-5.0 cmake .
+  - cmake --build .
