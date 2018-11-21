@@ -1,5 +1,7 @@
 # rayray
 
+[![Build status](https://ci.appveyor.com/api/projects/status/d3yx9e3kj2ktexgr/branch/master?svg=true)](https://ci.appveyor.com/project/DeveloperPaul123/rayray/branch/master)
+
 rayray is a baby raytracer I've been working on in my spare time. The goal is to create a decent raytracer in pure C++ 17. The current API is under heavy development but check back soon for updates!
 
 Currently, the API looks something like this:
