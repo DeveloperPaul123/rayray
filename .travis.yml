@@ -10,7 +10,22 @@ addons:
     packages:
       - clang-5.0
       - g++-6 
-
+      
+before_install:
+  - pip install --user cmake
+  
 script:
-  - CXX=/usr/bin/clang++-5.0 CC=/usr/bin/clang-5.0 cmake .
+  - cmake --version
+  - export CXX=clang++-5.0 
+  - export CC=clang-5.0
+  - mkdir build-clang
+  - cd build-clang
+  - cmake ../
+  - cmake --build .
+  - cd ..
+  - mkdir build-gcc
+  - cd build-gcc
+  - export CXX=g++-6
+  - export CC=g++-6
+  - cmake --/
   - cmake --build .
