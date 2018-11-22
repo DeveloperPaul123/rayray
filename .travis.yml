@@ -9,6 +9,9 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - clang-5.0
+      # still install g++-7 so that we get the updated version of 
+      # libc++ along with it. 
+      # see this: https://stackoverflow.com/questions/51457083/setup-clang-on-travis-ci-for-c17
       - g++-7
       
 before_install:
