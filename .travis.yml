@@ -18,7 +18,7 @@ before_install:
   - cd googletest-release-1.8.0
   - cmake . -DBUILD_SHARED_LIBS:BOOL=ON
   - cmake --build .
-  - cmake --build . --target install
+  - sudo cmake --build . --target install
   
 script:
   # print cmake version
