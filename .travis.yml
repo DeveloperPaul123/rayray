@@ -26,6 +26,6 @@ script:
   - mkdir build-gcc
   - cd build-gcc
   - export CXX=g++-6
-  - export CC=g++-6
+  - export CC=gcc-6
   - cmake ../
   - cmake --build .
