@@ -9,23 +9,31 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - clang-5.0
-      - g++-6 
+      # - g++-6 
       
 before_install:
   - pip install --user cmake
+  - wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+  - tar xf release-1.8.0.tar.gz
+  - cd googletest-release-1.8.0
+  - cmake -DBUILD_SHARED_LIBS .
+  - cmake --build .
+  - cmake --build . --target install
   
 script:
+  # print cmake version
   - cmake --version
   - export CXX=clang++-5.0 
   - export CC=clang-5.0
   - mkdir build-clang
   - cd build-clang
-  - cmake ../
+  - cmake -DRAYRAY_BUILD_TESTS:BOOL=ON ../
   - cmake --build .
-  - cd ..
-  - mkdir build-gcc
-  - cd build-gcc
-  - export CXX=g++-6
-  - export CC=gcc-6
-  - cmake ../
-  - cmake --build .
+  # skip gcc for now
+  # - cd ..
+  # - mkdir build-gcc
+  # - cd build-gcc
+  # - export CXX=g++-6
+  # - export CC=gcc-6
+  # - cmake ../
+  # - cmake --build .
