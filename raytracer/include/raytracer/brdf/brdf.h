@@ -6,6 +6,10 @@
 
 namespace rayray
 {
+    /**
+     * @brief Class that encapsulates a bidirectional reflectance distribution function
+     * @details At a high level, this class (function) decribes how light reflects at surfaces.
+     */
     class brdf
     {
     protected:
@@ -13,6 +17,8 @@ namespace rayray
         sampler* sampler_ptr_;
 
     public:
+        virtual ~brdf() = default;
+
         void set_normal(const vector<double, 3> & normal)
         {
             normal_ = normal;
