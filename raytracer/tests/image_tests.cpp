@@ -18,17 +18,17 @@ TEST(ImageTests, TestIndexing)
 	ASSERT_EQ(sum, 0);
 
 	std::fill(img.begin(), img.end(), 1);
-	sum = std::accumulate(img.begin(), img.end(), long long());
+	sum = std::accumulate(img.begin(), img.end(), 0LL);
 
 	ASSERT_EQ(sum, 1 * img.size());
 
 	img[0] = 255;
 	img[3] = 255;
 	img[6] = 255;
-
-	auto pixel_1_r = img.at(0, 0, channel::red);
-	auto pixel_2_r = img.at(0, 1, channel::red);
-	auto pixel_3_r = img.at(0, 2, channel::red);
+    
+	auto pixel_1_r = img.at(0, 0, (int)channel::red);
+	auto pixel_2_r = img.at(0, 1, (int)channel::red);
+	auto pixel_3_r = img.at(0, 2, (int)channel::red);
 
 	ASSERT_EQ(pixel_1_r, 255);
 	ASSERT_EQ(pixel_2_r, 255);
@@ -56,8 +56,8 @@ TEST(ImageTests, TestWriteImage)
 	
 	for(auto c = 10; c < 81; c++)
 	{
-		img.set(10, c, channel::red, 255);
+		img.set(10, c, (int)channel::red, 255);
 	}
 
-	EXPECT_NO_THROW(write_ppm_image(img, "test.ppm"));
+	EXPECT_NO_THROW(rayray::io::write_ppm_image(img, "test.ppm"));
 }
