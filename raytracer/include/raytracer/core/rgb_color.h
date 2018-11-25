@@ -29,5 +29,7 @@ namespace rayray
 	rgb_color green();
 	rgb_color yellow();
 	rgb_color operator*(const rgb_color &first, const rgb_color &second);
+    rgb_color operator*(const double &scaling, const rgb_color &color);
+    rgb_color operator*(const rgb_color &color, const double &scaling);
 #pragma endregion
 }

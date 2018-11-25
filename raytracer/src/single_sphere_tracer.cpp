@@ -32,3 +32,8 @@ rayray::rgb_color rayray::single_sphere_tracer::trace_ray(const ray& ray, const 
 	return rgb_color();
 }
 
+rayray::rgb_color rayray::single_sphere_tracer::trace_ray(const rayray::ray& ray, float& t_min, const int& depth)
+{
+    return rgb_color();
+}
+

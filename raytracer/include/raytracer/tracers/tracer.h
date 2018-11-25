@@ -14,7 +14,8 @@ namespace rayray
 		virtual ~tracer() = default;
         void set_scene(scene* scene_ptr);
 		virtual rgb_color trace_ray(const rayray::ray& ray) const = 0;
-		virtual rgb_color trace_ray(const rayray::ray& ray, const int &depth) const = 0;
+        virtual rgb_color trace_ray(const rayray::ray& ray, const int &depth) const = 0;
+        virtual rgb_color trace_ray(const rayray::ray& ray, float &t_min, const int &depth) = 0;
 	protected:
         scene * scene_ptr_{ nullptr };
 	};

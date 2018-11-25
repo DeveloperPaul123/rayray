@@ -28,3 +28,8 @@ rayray::rgb_color rayray::multi_object_tracer::trace_ray(const rayray::ray& ray,
     return trace_ray(ray);
 }
 
+rayray::rgb_color rayray::multi_object_tracer::trace_ray(const rayray::ray& ray, float& t_min, const int& depth)
+{
+    return black();
+}
+

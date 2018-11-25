@@ -1,4 +1,6 @@
 #include <raytracer/tracers/tracer.h>
+#include "raytracer/core/shade_rec.h"
+#include <iostream>
 
 rayray::tracer::tracer()
 {

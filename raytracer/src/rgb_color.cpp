@@ -24,7 +24,7 @@ rayray::rgb_color::rgb_color(const double& red, const double& green, const doubl
 {
     if (red < 0.0 || green < 0.0 || blue < 0.0 || red > 1.0 || green > 1.0 || blue > 1.0) 
     {
-        throw rayray::color_exception();
+//        throw rayray::color_exception();
     }
 }
 
@@ -83,6 +83,17 @@ rayray::rgb_color rayray::operator*(const rgb_color& first, const rgb_color& sec
 		first.green()*second.green(),
 		first.blue()*second.blue());
 }
+
+rayray::rgb_color rayray::operator*(const double& scaling, const rgb_color& color)
+{
+    return rgb_color(color.red() * scaling, color.green() *scaling, color.blue() *scaling);
+}
+
+rayray::rgb_color rayray::operator*(const rgb_color& color, const double& scaling)
+{
+    return rgb_color(color.red() * scaling, color.green() *scaling, color.blue() *scaling);
+}
+
 
 
 

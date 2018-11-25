@@ -21,6 +21,16 @@ rayray::tracer* rayray::scene::tracer_ptr() const
     return tracer_;
 }
 
+void rayray::scene::set_ambient_light(ambient_light* light)
+{
+    ambient_ptr_ = light;
+}
+
+rayray::ambient_light* rayray::scene::ambient_light_ptr() const
+{
+    return ambient_ptr_;
+}
+
 void rayray::scene::add_object(rayray::geometric_object* object)
 {
     hit_objects_.push_back(object);
@@ -29,6 +39,21 @@ void rayray::scene::add_object(rayray::geometric_object* object)
 std::vector<rayray::geometric_object*> rayray::scene::objects() const
 {
     return hit_objects_;
+}
+
+void rayray::scene::add_light(light* light)
+{
+    lights_.push_back(light);
+}
+
+void rayray::scene::set_lights(const std::vector<light*>& lights)
+{
+    lights_ = lights;
+}
+
+std::vector<rayray::light*> rayray::scene::lights() const
+{
+    return lights_;
 }
 
 const rayray::view_plane& rayray::scene::view_plane() const
@@ -59,6 +84,7 @@ rayray::shade_rec rayray::scene::hit_objects(const ray& ray)
     auto num_objects = hit_objects_.size();
     vector<double, 3> normal;
     point<double, 3> local_hit_point;
+    material* mat_ptr{nullptr};
     for(auto &object : hit_objects_)
     {
         if(object->hit(ray, t, shade_rec) && t < t_min)
@@ -68,6 +94,7 @@ rayray::shade_rec rayray::scene::hit_objects(const ray& ray)
             shade_rec.color = object->color();
             local_hit_point = ray.origin() + t * ray.direction();
             normal = shade_rec.normal;
+            mat_ptr = object->material_ptr();
         }
     }
 
@@ -76,6 +103,7 @@ rayray::shade_rec rayray::scene::hit_objects(const ray& ray)
         shade_rec.t = t_min;
         shade_rec.normal = normal;
         shade_rec.local_hit_point = local_hit_point;
+        shade_rec.material_ptr = mat_ptr;
     }
 
     return shade_rec;

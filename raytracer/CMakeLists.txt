@@ -30,6 +30,7 @@ set(project_tracer_headers
     include/raytracer/tracers/tracer.h
     include/raytracer/tracers/single_sphere_tracer.h
     include/raytracer/tracers/multi_object_tracer.h
+    include/raytracer/tracers/ray_cast_tracer.h
 )
 
 set(project_samplers_headers
@@ -56,6 +57,17 @@ set(project_brdf_headers
     include/raytracer/brdf/lambertian.h
 )
 
+set(project_light_headers
+    include/raytracer/lights/light.h
+    include/raytracer/lights/ambient_light.h
+    include/raytracer/lights/directional_light.h
+    include/raytracer/lights/point_light.h)
+
+set(project_material_headers
+    include/raytracer/materials/material.h
+    include/raytracer/materials/matte_material.h
+    include/raytracer/materials/phong_material.h)
+
 set(project_headers
     ${project_core_headers}
     ${project_image_headers}
@@ -65,6 +77,8 @@ set(project_headers
     ${project_camera_headers}
     ${project_utilities_headers}
     ${project_brdf_headers}
+    ${project_light_headers}
+    ${project_material_headers}
     )
 
 set(project_core_sources
@@ -86,6 +100,7 @@ set(project_tracer_sources
     src/tracer.cpp
     src/single_sphere_tracer.cpp
     src/multi_object_tracer.cpp
+    src/ray_cast_tracer.cpp
 )
 
 set(project_sampler_sources
@@ -110,6 +125,15 @@ set(project_camera_sources
 set(project_brdf_sources
     src/lambertian.cpp)
 
+set(project_light_sources
+    src/ambient_light.cpp
+    src/directional_light.cpp
+    src/point_light.cpp)
+
+set(project_material_sources
+    src/matte_material.cpp
+    src/phong_material.cpp)
+
 set(project_sources
     ${project_core_sources}     
     ${project_geometry_sources}
@@ -118,6 +142,8 @@ set(project_sources
     ${project_utilities_sources}   
     ${project_camera_sources}
     ${project_brdf_sources}
+    ${project_light_sources}
+    ${project_material_sources}
 )
 
 source_group("Header Files\\Core" FILES ${project_core_headers})
@@ -128,6 +154,8 @@ source_group("Header Files\\Samplers" FILES ${project_samplers_headers})
 source_group("Header Files\\Utilities" FILES ${project_utilities_headers})
 source_group("Header Files\\Cameras" FILES ${project_camera_headers})
 source_group("Header Files\\BRDF" FILES ${project_brdf_headers})
+source_group("Header Files\\Lights" FILES ${project_light_headers})
+source_group("Header Files\\Materials" FILES ${project_material_headers})
 
 source_group("Source Files\\Core" FILES ${project_core_sources})
 source_group("Source Files\\Geometry" FILES ${project_geometry_sources})
@@ -136,6 +164,8 @@ source_group("Source Files\\Samplers" FILES ${project_sampler_sources})
 source_group("Source Files\\Utilities" FILES ${project_utilities_sources})
 source_group("Source Files\\Cameras" FILES ${project_camera_sources})
 source_group("Source Files\\BRDF" FILES ${project_brdf_sources})
+source_group("Source Files\\Lights" FILES ${project_light_sources})
+source_group("Source Files\\Materials" FILES ${project_material_sources})
 
 add_library(${PROJECT_NAME} ${project_headers} ${project_sources})
 
