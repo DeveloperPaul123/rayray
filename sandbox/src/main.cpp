@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     rayray::pinhole_camera camera;
     camera.set_eye(0, 0, 500);
     camera.set_lookat(-5, 0, 0);
-    camera.set_view_plane_distance(850.0);
+    camera.set_view_plane_distance(1750.0);
     camera.compute_uvw();
 
     rayray::scene basic_scene;
@@ -55,20 +55,29 @@ int main(int argc, char* argv[])
     basic_scene.set_ambient_light(&amb_light);
 
     rayray::point_light pt_light;
-    pt_light.set_location({ 100, 50, 150 });
+    pt_light.set_location({ 100, -100, 150 });
     pt_light.set_radiance_scaling(3.0);
     basic_scene.add_light(&pt_light);
 
     rayray::matte matte_material;
     matte_material.set_ka(0.25);
     matte_material.set_kd(0.65);
-    matte_material.set_cd(1.0, 1.0, 0.0); // yellow
+    matte_material.set_cd(1.0, 0.0, 0.0);
+
+    rayray::matte matte_blue;
+    matte_blue.set_ka(0.35);
+    matte_blue.set_kd(0.55);
+    matte_blue.set_cd(0.0, 0.0, 1.0);
 
     rayray::sphere sp1({ 10.0, -5.0, 0.0 }, 27.0);
     sp1.set_material(&matte_material);
    
+    rayray::sphere sp2({ -10.0, -10.0, -50.0 }, 30.0);
+    sp2.set_material(&matte_blue);
+
     basic_scene.add_object(&sp1);
-    auto output_image = camera.render_scene(basic_scene);
+
+    const auto output_image = camera.render_scene(basic_scene);
 
 	const auto ok = rayray::io::write_ppm_image(output_image, "output.ppm");
 
