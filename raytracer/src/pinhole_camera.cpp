@@ -56,7 +56,10 @@ rayray::image<unsigned char> rayray::pinhole_camera::render_scene(const scene& s
 
             // clamp colors to 1
             auto max_color = *std::max_element(color.begin(), color.end());
-            color /= max_color;
+            if(max_color > 1.0)
+            {
+                color /= max_color;
+            }
             
             output.set(r, c, 0, color.red() * 255);
             output.set(r, c, 1, color.green() * 255);
