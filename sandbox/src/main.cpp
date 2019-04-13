@@ -75,7 +75,9 @@ int main(int argc, char* argv[])
     rayray::sphere sp2({ -10.0, -10.0, -50.0 }, 30.0);
     sp2.set_material(&matte_blue);
 
+	// add objects to scene.
     basic_scene.add_object(&sp1);
+	basic_scene.add_object(&sp2);
 
     const auto output_image = camera.render_scene(basic_scene);
 
