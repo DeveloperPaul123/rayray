@@ -3,6 +3,9 @@
 [![Build Status](https://travis-ci.org/DeveloperPaul123/rayray.svg?branch=master)](https://travis-ci.org/DeveloperPaul123/rayray)
 [![Build status](https://ci.appveyor.com/api/projects/status/d3yx9e3kj2ktexgr/branch/master?svg=true)](https://ci.appveyor.com/project/DeveloperPaul123/rayray/branch/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7432fb223efc4b0cb92c84dbeb84e717)](https://www.codacy.com/app/developerpaul123/rayray?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DeveloperPaul123/rayray&amp;utm_campaign=Badge_Grade)
+[![CodeFactor](https://www.codefactor.io/repository/github/developerpaul123/rayray/badge)](https://www.codefactor.io/repository/github/developerpaul123/rayray)
+[![HitCount](http://hits.dwyl.io/DeveloperPaul123/rayray.svg)](http://hits.dwyl.io/DeveloperPaul123/rayray)
+[![](https://tokei.rs/b1/github/DeveloperPaul123/rayray)](https://github.com/DeveloperPaul123/rayray)
 
 rayray is a baby raytracer I've been working on in my spare time. The goal is to create a decent raytracer in pure C++ 17. The current API is under heavy development but check back soon for updates!
 
