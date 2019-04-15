@@ -1,18 +1,17 @@
 
 #include <raytracer/core/ray.h>
-#include <iostream>
 #include "raytracer/image/image.h"
 #include "raytracer/image/image_io.h"
 #include "raytracer/core/scene.h"
-#include "raytracer/core/scene_renderer.h"
-#include "raytracer/tracers/multi_object_tracer.h"
 #include "raytracer/geometry/plane.h"
-#include "raytracer/samplers/jittered_sampler.h"
 #include "raytracer/samplers/multijittered_sampler.h"
 #include "raytracer/cameras/pinhole_camera.h"
 #include "raytracer/tracers/ray_cast_tracer.h"
 #include "raytracer/lights/point_light.h"
 #include "raytracer/materials/matte_material.h"
+
+#include <chrono>
+#include <iostream>
 
 rayray::vector<double, 3> color(const rayray::ray & r)
 {
@@ -36,7 +35,7 @@ int main(int argc, char* argv[])
     rayray::scene basic_scene;
     basic_scene.set_background_color(rayray::black());
 
-    rayray::view_plane view_plane(400, 400, 1.0, 1.0);
+    rayray::view_plane view_plane(1920, 1080, 1.0, 1.0);
     
     // initialize the sampler and generate the samples
     rayray::multijittered_sampler sampler(25); 
@@ -79,7 +78,10 @@ int main(int argc, char* argv[])
     basic_scene.add_object(&sp1);
 	basic_scene.add_object(&sp2);
 
+	const auto start_time = std::chrono::high_resolution_clock::now();
     const auto output_image = camera.render_scene(basic_scene);
+	const auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start_time).count();
+	std::cout << "Render took " << duration << " milliseconds." << std::endl;
 
 	const auto ok = rayray::io::write_ppm_image(output_image, "output.ppm");
 
