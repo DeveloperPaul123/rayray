@@ -170,6 +170,11 @@ source_group("Source Files\\Materials" FILES ${project_material_sources})
 add_library(${PROJECT_NAME} ${project_headers} ${project_sources})
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PUBLIC /W4 /experimental:external /external:anglebrackets /MP /FS)
+endif(MSVC)
 
 if(RAYRAY_BUILD_TESTS)
     set(project_test_name "${PROJECT_NAME}.tests")
