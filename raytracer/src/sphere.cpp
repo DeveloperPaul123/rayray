@@ -44,7 +44,7 @@ bool rayray::sphere::hit(const rayray::ray& ray, double& t_min, rayray::shade_re
 	{
 		t_min = t;
 		sr.normal = (temp + t * ray.direction()) / radius_;
-		sr.local_hit_point = ray.origin() + t * ray.direction();
+		sr.local_hit_point = (ray.origin() + t * ray.direction()).to_point();
 		return true;
 	}
 
@@ -54,7 +54,7 @@ bool rayray::sphere::hit(const rayray::ray& ray, double& t_min, rayray::shade_re
 	{
 		t_min = t;
 		sr.normal = (temp + t * ray.direction()) / radius_;
-		sr.local_hit_point = ray.origin() + t * ray.direction();
+		sr.local_hit_point = (ray.origin() + t * ray.direction()).to_point();
 		return true;
 	}
 	return false;

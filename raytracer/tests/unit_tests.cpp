@@ -110,10 +110,10 @@ TEST(VectorTests, TestUnitVector)
 	ASSERT_DOUBLE_EQ(unit_vector.length(), 1.0);
 }
 
-TEST(VectorTests, TestPointImplicitConversion)
+TEST(VectorTests, TestPointConversion)
 {
 	vector<double, 3> data = { 1.0, 2.0, 3.0 };
-	point<double, 3> point_data = data;
+	point<double, 3> point_data = data.to_point();
 
 	for(auto i = 0; i < 3; i++)
 	{

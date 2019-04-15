@@ -3,6 +3,7 @@
 #include "raytracer/core/nd_base.h"
 #include "point.h"
 
+#include <array>
 #include <cmath>
 
 namespace rayray
@@ -19,7 +20,6 @@ namespace rayray
 		explicit vector(std::array<T, N> data);
 		~vector() = default;
 
-		operator point<T, N>();
 		self_type operator-();
 		self_type operator*(const T& value);
 		self_type operator*=(const T& value);
@@ -29,12 +29,15 @@ namespace rayray
 		T length_squared() const;
 		vector to_unit_vector();
 
+		point<T, N> to_point();
+
 		typename nd_base<T, N>::value_type x() const;
 		template<class S = typename nd_base<T, N>::value_type>
 		typename std::enable_if<N >= 2, S>::type y() const;
 		template<class S = typename nd_base<T, N>::value_type>
 		typename std::enable_if<N >= 3, S>::type z() const;
 	};
+
 
 #pragma region Implementation
 	template <typename T, std::size_t N>
@@ -54,17 +57,6 @@ namespace rayray
 	vector<T, N>::vector(std::array<T, N> data)
 		:nd_base<T, N>(data)
 	{
-	}
-
-	template <typename T, std::size_t N>
-	vector<T, N>::operator point<T, N>()
-	{
-		point<T, N> result;
-		for (auto i = 0; i < N; i++)
-		{
-			result[i] = nd_base<T, N>::data_[i];
-		}
-		return result;
 	}
 
 	template <typename T, std::size_t N>
@@ -134,6 +126,17 @@ namespace rayray
 	{
 		T k = 1.0 / length();
 		return { parent_type::data_[0] * k, parent_type::data_[1] * k, parent_type::data_[2] * k };
+	}
+
+	template <typename T, std::size_t N>
+	point<T, N> vector<T, N>::to_point()
+	{
+		point<T, N> result;
+		for (auto i = 0; i < N; i++)
+		{
+			result[i] = nd_base<T, N>::data_[i];
+		}
+		return result;
 	}
 
 	template <typename T, std::size_t N>

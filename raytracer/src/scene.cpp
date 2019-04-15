@@ -1,7 +1,8 @@
 #include "raytracer/core/scene.h"
 #include "raytracer/tracers/single_sphere_tracer.h"
-#include "raytracer/image/image_io.h"
 #include "raytracer/core/shade_rec.h"
+
+#include <vector>
 
 rayray::scene::scene() : view_plane_(200, 200, 1.0, 1.0)
 {
@@ -92,7 +93,7 @@ rayray::shade_rec rayray::scene::hit_objects(const ray& ray)
             shade_rec.hit_object = true;
             t_min = t;
             shade_rec.color = object->color();
-            local_hit_point = ray.origin() + t * ray.direction();
+			local_hit_point = (ray.origin() + t * ray.direction()).to_point();
             normal = shade_rec.normal;
             mat_ptr = object->material_ptr();
         }

@@ -16,7 +16,7 @@ bool rayray::plane::hit(const rayray::ray& ray, double& t_min, rayray::shade_rec
 	{
 		t_min = t;
 		sr.normal = normal_;
-		sr.local_hit_point = ray.origin() + t * ray.direction();
+		sr.local_hit_point = (ray.origin() + t * ray.direction()).to_point();
 		
 		return true;
 	}
