@@ -13,4 +13,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: action-cpp-lint
-      uses: CyberZHG/github-action-cpp-lint@0.0.2
+      uses: cclauss/GitHub-Action-for-cpplint@0.0.6
