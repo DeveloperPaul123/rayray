@@ -1,0 +1,14 @@
+name: clang-tidy
+    
+# clang-tidy action can only run on pull requests
+on:
+  pull_request:
+    branches:
+    - master
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: clang-tidy check
+    uses: muxee/clang-tidy-action@0.0.1-rc1
